@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: route1
+  namespace: ns1
+spec:
+  hostnames:
+  - store.example.com 
+  parentRefs:
+  - name: external-http
+    namespace: nsgw 
+  rules:
+  - backendRefs:
+    - name: frontend
+      namespace: ns1
+      weight: 80
+      port: 80
+    - name: frontend
+      namespace: ns2
+      weight: 20
+      port: 80
+
