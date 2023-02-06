@@ -1,4 +1,4 @@
-This repository collects a series of Kubernetes Gateway API usage examples, using kind as cluster and Contour as controller.
+This repository collects a series of [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) usage examples, using [kind](https://kind.sigs.k8s.io/) to create a local Kubernetes cluster and [Contour](https://projectcontour.io/) as controller.
 
 These are just examples to try out the Gateway API and are not meant to be used in a production environment.
 
