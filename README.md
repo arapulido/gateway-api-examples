@@ -39,6 +39,17 @@ kubectl apply -f ecommerce/version1/ -n ns1
 kubectl apply -f ecommerce/version2/ -n ns2
 ```
 
+## (Optional) Deploy the Datadog Agent
+
+The ecommerce application is already instrumented with OpenTelemetry. If you are a Datadog user you can send the Otel traces to Datadog by deploying the Datadog Agent:
+
+```
+export DD_API_KEY=<YOUR_DATADOG_API_KEY>
+helm install datadog --set datadog.apiKey=$DD_API_KEY datadog/datadog -f datadog/values.yaml
+```
+
+As it is OpenTelemetry, feel free to set up a different backend for the OpenTelemetry traces.
+
 ## Edit /etc/hosts
 The examples below use `store.example.com` as the hostname for the routes. Edit your local `/etc/hosts` file to point to localhost on that one:
 
@@ -47,13 +58,25 @@ The examples below use `store.example.com` as the hostname for the routes. Edit 
 ```
 
 # Examples
-For every example, once the resources are created, access version 1.0 of the application on `http://store.example.com:30000`
+For every example, once the resources are created, access the application on `http://store.example.com:30000`
 
-## Basic (`basic` folder)
+## Basic ([`basic` folder](https://github.com/arapulido/gateway-api-examples/tree/main/basic))
 The most basic example deploys a Gateway in the namespace `nsgw` and a HTTPRoute in `ns1`.
 
-## URLRewrite (`prefix-urlrewrite` folder)
+![Architecture of example 1](./img/example1.jpg)
+
+Once the resources have been created, access the version 1 of the application on `http://store.example.com:30000`. 
+
+## URLRewrite ([`prefix-urlrewrite` folder](https://github.com/arapulido/gateway-api-examples/tree/main/prefix-urlrewrite))
 This example showcases how to split traffic based on URL prefixes, but rewriting the path for the backend to get a root (`/`) prefix.
 
-## Traffic Weight
+![Architecture of example 2](./img/example2.jpg)
+
+Once the resources have been created, access the version 1 of the application on `http://store.example.com:30000/foo` and the version 2 of the application on `http://store.example.com:30000/bar`.
+
+## Traffic Weight ([`traffic-weight` folder](https://github.com/arapulido/gateway-api-examples/tree/main/traffic-weight))
 This example showcases how to split traffic by weight and how to cross namespaces boundaries safely using ReferenceGrant resources.
+
+![Architecture of example 3](./img/example3.jpg)
+
+Once the resources have been created, access the application on `http://store.example.com:30000/`. 80% of the times you get version 1 and 20% of the times you get version 2.
